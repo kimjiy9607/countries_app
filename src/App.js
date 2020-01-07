@@ -1,26 +1,62 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import axios from "axios";
+import Country from "./Country"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  state = {
+    isLoading: true,
+    countries: []
+  };
+
+  // getCountries = async() => {
+  //   const countries = await axios.get("https://restcountries.eu/rest/v2/name");
+  //   console.log(countries);
+  //   this.state.countries.map(country => {
+  //     {country.name}
+  //   });
+  //   //this.setState({ countries, isLoading: false });
+  // };
+
+  getCountries = async () => {
+    const countries = await axios.get("https://restcountries.eu/rest/v2/all");
+    //const countriesData = countries.data;
+    this.setState({
+      countries: countries.data,
+      isLoading: false
+    });
+  };
+
+
+  componentDidMount() {
+    this.getCountries();
+  }
+
+  // getCurrency = async () => {
+  //   const {
+  //     data: {
+  //       currencies: { code }
+  //     }
+  //   } = await axios.get("https://restcountries.eu/rest/v2/all");
+  // }
+
+  render(){
+    const{ isLoading, countries } = this.state;
+    return (
+      <div>
+        {isLoading ? "Loading..."
+         : countries.map(country => (
+           <Country 
+              key={country.id}
+              id={country.id}
+              name={country.name}
+              capital={country.capital}
+              flag={country.flag}
+           />
+         ))}
+      </div>
+    )
+    
+  }
 }
 
 export default App;

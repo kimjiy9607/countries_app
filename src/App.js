@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from "axios";
-import Country from "./Country"
+import Country from "./Country";
+import "./App.css";
 
 class App extends React.Component {
   state = {
@@ -42,9 +43,14 @@ class App extends React.Component {
   render(){
     const{ isLoading, countries } = this.state;
     return (
-      <div>
-        {isLoading ? "Loading..."
-         : countries.map(country => (
+      <section className="container">
+        {isLoading ? (
+          <div className="loader">
+            <span className="loader__text">Loading...</span>
+          </div>
+        ) : (
+          <div className="countries">
+            {countries.map(country => (
            <Country 
               key={country.id}
               id={country.id}
@@ -52,10 +58,11 @@ class App extends React.Component {
               capital={country.capital}
               flag={country.flag}
            />
-         ))}
-      </div>
-    )
-    
+           ))}
+          </div>
+        )}
+      </section>
+    );
   }
 }
 

@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
+import "./Country.css";
 
-function Country({ name, capital, flag }) {
+function Country({ id, name, capital, flag }) {
 return (
     <div className="country">
         <img src={flag} alt={name} name={name} />
